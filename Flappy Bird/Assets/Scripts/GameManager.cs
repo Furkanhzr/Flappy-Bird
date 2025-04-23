@@ -14,8 +14,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         score = 0;
-        scoreText.text = score.ToString();
-        highScoreText.text = "High Score: " + PlayerPrefs.GetInt("highScore");
+
+        if (scoreText != null)
+            scoreText.text = score.ToString();
+
+        if (highScoreText != null)
+            highScoreText.text = "High Score: " + PlayerPrefs.GetInt("highScore");
     }
     public void IncreaseScore()
     {
@@ -36,6 +40,12 @@ public class GameManager : MonoBehaviour
 
     public void LoadMainMenuScene()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void NavigateToGame()
+    {
+        SceneManager.LoadScene("Game");
     }
 }

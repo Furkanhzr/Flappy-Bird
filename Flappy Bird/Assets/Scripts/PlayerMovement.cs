@@ -12,17 +12,23 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioSource pointSFX;
     [SerializeField] private AudioSource flySFX;
 
+    private bool isDead = false; //ses bug'u için
+
+
     //private GameManager gameManager;
     void Start()
     {
         Time.timeScale = 1f;
         deadScreen.SetActive(false);
         rb2d = GetComponent<Rigidbody2D>(); //verilen component'i alır.
+        rb2d.velocity = Vector2.up * jumpSpeed;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) //getKey tuşa basılı tuttuğunda, getKeyDown ise bastığında
+        if (isDead) return;
+
+        if (Input.GetKeyDown(KeyCode.Mouse0)) //getKey tuşa basılı tuttuğunda, getKeyDown ise bastığında
         {
             rb2d.velocity = Vector2.up * jumpSpeed; //velocity "hız" demektir.
             //zıplama sesi
@@ -46,7 +52,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if(other.gameObject.tag == "Obstacle")
+        isDead = true;
+
+        if (other.gameObject.tag == "Obstacle")
         {
             Time.timeScale = 0f;
             deadScreen.SetActive(true);
